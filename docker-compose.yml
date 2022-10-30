@@ -17,7 +17,22 @@ services:
       - POSTGRES_DB=app
       - POSTGRES_USER=app
       - POSTGRES_PASSWORD=pass
-  node-app:
-    build: ./gate-simulator
+
+#  node-app:
+#    build: ./gate-simulator
+#    ports:
+#      - '9999:9999'
+
+  node:
+    image: "node:latest"
+    user: "node"
+    working_dir: /home/node/app
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - ./gate-simulator:/home/node/app
+    expose:
+      - "9999"
     ports:
       - '9999:9999'
+    command: "npm start"
