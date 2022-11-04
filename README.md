@@ -37,4 +37,7 @@
   - Для запуска SUT с базой данных PostgreSQL в терминале IntelliJ IDEA выполнить команду:   
   ```java "-Dspring.datasource.url=jdbc:postgresql://localhost:5432/app" -jar artifacts/aqa-shop.jar```
   - Для запуска тестов по ранее написанному сценарию [**TestCase.md**](https://github.com/IliaMaksimenko/GraduateWork/blob/master/documentations/TestCase.md) в новой вкладке терминала IntelliJ IDEA выполнить команду:  
-  ```gradlew clean test "-Ddb.url=jdbc:postgresql://localhost:5432/app"```
+  ```gradlew clean test "-Ddb.url=jdbc:postgresql://localhost:5432/app"```  
+  
+## Лицензия
+  - свободная
