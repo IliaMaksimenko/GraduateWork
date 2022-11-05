@@ -8,13 +8,11 @@ import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.*;
 
 import static com.codeborne.selenide.Selenide.open;
+import static org.junit.jupiter.api.Assertions.*;
 
 import page.DayTrip;
 
 import java.sql.SQLException;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class CardPaymentTest {
 
@@ -51,6 +49,8 @@ public class CardPaymentTest {
 
         String expectedStatus = "APPROVED";
 
+        assertNotNull(SQLHelper.getTransactionIdFromPaymentEntity());
+        assertNotNull(SQLHelper.getPaymentIdFromOrderEntity());
         assertEquals(expectedStatus, SQLHelper.getStatusFromPaymentEntity());
         assertEquals(SQLHelper.getTransactionIdFromPaymentEntity(), SQLHelper.getPaymentIdFromOrderEntity());
     }
@@ -76,6 +76,8 @@ public class CardPaymentTest {
 
         String expectedStatus = "DECLINED";
 
+        assertNotNull(SQLHelper.getTransactionIdFromPaymentEntity());
+        assertNotNull(SQLHelper.getPaymentIdFromOrderEntity());
         assertEquals(expectedStatus, SQLHelper.getStatusFromPaymentEntity());
         assertEquals(SQLHelper.getTransactionIdFromPaymentEntity(), SQLHelper.getPaymentIdFromOrderEntity());
     }
@@ -89,6 +91,8 @@ public class CardPaymentTest {
 
         String expectedStatus = "DECLINED";
 
+        assertNotNull(SQLHelper.getTransactionIdFromPaymentEntity());
+        assertNotNull(SQLHelper.getPaymentIdFromOrderEntity());
         assertEquals(expectedStatus, SQLHelper.getStatusFromPaymentEntity());
         assertEquals(SQLHelper.getTransactionIdFromPaymentEntity(), SQLHelper.getPaymentIdFromOrderEntity());
     }

@@ -10,8 +10,7 @@ import page.DayTrip;
 import java.sql.SQLException;
 
 import static com.codeborne.selenide.Selenide.open;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class BuyInCreditTest {
     private final DayTrip cardPayment = new DayTrip();
@@ -47,8 +46,10 @@ public class BuyInCreditTest {
 
         String expectedStatus = "APPROVED";
 
-        assertEquals(expectedStatus, SQLHelper.getStatusFromPaymentEntity());
-        assertEquals(SQLHelper.getTransactionIdFromPaymentEntity(), SQLHelper.getPaymentIdFromOrderEntity());
+        assertNotNull(SQLHelper.getBankIdFromCreditEntity());
+        assertNotNull(SQLHelper.getCreditIdFromOrderEntity());
+        assertEquals(expectedStatus, SQLHelper.getStatusFromCreditRequestEntity());
+        assertEquals(SQLHelper.getBankIdFromCreditEntity(), SQLHelper.getCreditIdFromOrderEntity());
     }
 
     @Test
@@ -60,7 +61,7 @@ public class BuyInCreditTest {
         cardPayment.validationOwner("Поле обязательно для заполнения");
         cardPayment.validationCvc("Неверный формат");
 
-        assertNull(SQLHelper.getStatusFromPaymentEntity());
+        assertNull(SQLHelper.getStatusFromCreditRequestEntity());
     }
 
     @Test
@@ -72,8 +73,8 @@ public class BuyInCreditTest {
 
         String expectedStatus = "DECLINED";
 
-        assertEquals(expectedStatus, SQLHelper.getStatusFromPaymentEntity());
-        assertEquals(SQLHelper.getTransactionIdFromPaymentEntity(), SQLHelper.getPaymentIdFromOrderEntity());
+        assertEquals(expectedStatus, SQLHelper.getStatusFromCreditRequestEntity());
+        assertEquals(SQLHelper.getBankIdFromCreditEntity(), SQLHelper.getCreditIdFromOrderEntity());
     }
 
     @Test
@@ -85,8 +86,8 @@ public class BuyInCreditTest {
 
         String expectedStatus = "DECLINED";
 
-        assertEquals(expectedStatus, SQLHelper.getStatusFromPaymentEntity());
-        assertEquals(SQLHelper.getTransactionIdFromPaymentEntity(), SQLHelper.getPaymentIdFromOrderEntity());
+        assertEquals(expectedStatus, SQLHelper.getStatusFromCreditRequestEntity());
+        assertEquals(SQLHelper.getBankIdFromCreditEntity(), SQLHelper.getCreditIdFromOrderEntity());
     }
 
     @Test
@@ -96,7 +97,7 @@ public class BuyInCreditTest {
         cardPayment.send();
         cardPayment.validationMonth("Неверный формат");
 
-        assertNull(SQLHelper.getStatusFromPaymentEntity());
+        assertNull(SQLHelper.getStatusFromCreditRequestEntity());
     }
 
 
@@ -107,7 +108,7 @@ public class BuyInCreditTest {
         cardPayment.send();
         cardPayment.validationMonth("Неверно указан срок действия карты");
 
-        assertNull(SQLHelper.getStatusFromPaymentEntity());
+        assertNull(SQLHelper.getStatusFromCreditRequestEntity());
     }
 
     @Test
@@ -117,7 +118,7 @@ public class BuyInCreditTest {
         cardPayment.send();
         cardPayment.validationMonth("Неверно указан срок действия карты");
 
-        assertNull(SQLHelper.getStatusFromPaymentEntity());
+        assertNull(SQLHelper.getStatusFromCreditRequestEntity());
     }
 
     @Test
@@ -127,7 +128,7 @@ public class BuyInCreditTest {
         cardPayment.send();
         cardPayment.validationMonth("Неверный формат");
 
-        assertNull(SQLHelper.getStatusFromPaymentEntity());
+        assertNull(SQLHelper.getStatusFromCreditRequestEntity());
     }
 
     @Test
@@ -137,7 +138,7 @@ public class BuyInCreditTest {
         cardPayment.send();
         cardPayment.validationYear("Неверный формат");
 
-        assertNull(SQLHelper.getStatusFromPaymentEntity());
+        assertNull(SQLHelper.getStatusFromCreditRequestEntity());
     }
 
     @Test
@@ -147,7 +148,7 @@ public class BuyInCreditTest {
         cardPayment.send();
         cardPayment.validationYear("Истёк срок действия карты");
 
-        assertNull(SQLHelper.getStatusFromPaymentEntity());
+        assertNull(SQLHelper.getStatusFromCreditRequestEntity());
     }
 
     @Test
@@ -157,7 +158,7 @@ public class BuyInCreditTest {
         cardPayment.send();
         cardPayment.validationYear("Неверно указан срок действия карты");
 
-        assertNull(SQLHelper.getStatusFromPaymentEntity());
+        assertNull(SQLHelper.getStatusFromCreditRequestEntity());
     }
 
     @Test
@@ -167,7 +168,7 @@ public class BuyInCreditTest {
         cardPayment.send();
         cardPayment.validationYear("Неверный формат");
 
-        assertNull(SQLHelper.getStatusFromPaymentEntity());
+        assertNull(SQLHelper.getStatusFromCreditRequestEntity());
     }
 
     @Test
@@ -177,7 +178,7 @@ public class BuyInCreditTest {
         cardPayment.send();
         cardPayment.validationOwner("Поле обязательно для заполнения");
 
-        assertNull(SQLHelper.getStatusFromPaymentEntity());
+        assertNull(SQLHelper.getStatusFromCreditRequestEntity());
     }
 
     @Test
@@ -187,7 +188,7 @@ public class BuyInCreditTest {
         cardPayment.send();
         cardPayment.validationOwner("Неверный формат");
 
-        assertNull(SQLHelper.getStatusFromPaymentEntity());
+        assertNull(SQLHelper.getStatusFromCreditRequestEntity());
     }
 
     @Test
@@ -197,7 +198,7 @@ public class BuyInCreditTest {
         cardPayment.send();
         cardPayment.validationOwner("Неверный формат");
 
-        assertNull(SQLHelper.getStatusFromPaymentEntity());
+        assertNull(SQLHelper.getStatusFromCreditRequestEntity());
     }
 
     @Test
@@ -207,7 +208,7 @@ public class BuyInCreditTest {
         cardPayment.send();
         cardPayment.validationOwner("Неверный формат");
 
-        assertNull(SQLHelper.getStatusFromPaymentEntity());
+        assertNull(SQLHelper.getStatusFromCreditRequestEntity());
     }
 
     @Test
@@ -217,7 +218,7 @@ public class BuyInCreditTest {
         cardPayment.send();
         cardPayment.validationOwner("Неверный формат");
 
-        assertNull(SQLHelper.getStatusFromPaymentEntity());
+        assertNull(SQLHelper.getStatusFromCreditRequestEntity());
     }
 
     @Test
@@ -227,7 +228,7 @@ public class BuyInCreditTest {
         cardPayment.send();
         cardPayment.validationCvc("Неверный формат");
 
-        assertNull(SQLHelper.getStatusFromPaymentEntity());
+        assertNull(SQLHelper.getStatusFromCreditRequestEntity());
     }
 
     @Test
@@ -237,7 +238,7 @@ public class BuyInCreditTest {
         cardPayment.send();
         cardPayment.validationCvc("Неверный формат");
 
-        assertNull(SQLHelper.getStatusFromPaymentEntity());
+        assertNull(SQLHelper.getStatusFromCreditRequestEntity());
     }
 
     @Test
@@ -247,7 +248,7 @@ public class BuyInCreditTest {
         cardPayment.send();
         cardPayment.validationCardNumber("Неверный формат");
 
-        assertNull(SQLHelper.getStatusFromPaymentEntity());
+        assertNull(SQLHelper.getStatusFromCreditRequestEntity());
     }
 }
 

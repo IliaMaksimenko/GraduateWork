@@ -42,7 +42,7 @@ public class SQLHelper {
         return getScalarFromTable("status", "credit_request_entity");
     }
 
-    public static String getBankIdFromCreditRequestEntity() throws SQLException {
+    public static String getBankIdFromCreditEntity() throws SQLException {
         return getScalarFromTable("bank_id", "credit_request_entity");
     }
 
