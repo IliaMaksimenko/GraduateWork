@@ -13,7 +13,7 @@
   - **Lombok** - библиотека Java
   - **Google Chrome** - браузер для работы UI тестов
   
-С более подробным обоснованием выбранного программного обеспечение можно ознакомится в плане автоматизации **Plane.md**.
+С более подробным обоснованием выбранного программного обеспечение можно ознакомится в плане автоматизации [**Plane.md**](https://github.com/IliaMaksimenko/GraduateWork/blob/master/documentations/Plane.md).
   
 ### Установка и запуск проекта
 Ниже перечислены шаги, которые позволят получить проект, установить и корректно запустить его.  
@@ -27,12 +27,17 @@
   - Запустить склонированный проект в IntelliJ IDEA 
   - Запустить docker-machine start default 
   - Для создания образа баз данных MySQL и PostgreSQL в терминале IntelliJ IDEA выполнить команду:   
-  ```docker-compose up -d```
+  ```docker-compose up -d```  
+    **MySQL**:  
   - Для запуска SUT с базой данных MySQL в терминале IntelliJ IDEA выполнить команду:   
   ```java "-Dspring.datasource.url=jdbc:mysql://localhost:3306/app" -jar artifacts/aqa-shop.jar```
-  - Для запуска тестов по ранее написанному сценарию **TestCase.md** в новой вкладке терминала IntelliJ IDEA выполнить команду:   
-  ```gradlew clean test```
+  - Для запуска тестов по ранее написанному сценарию [**TestCase.md**](https://github.com/IliaMaksimenko/GraduateWork/blob/master/documentations/TestCase.md) в новой вкладке терминала IntelliJ IDEA выполнить команду:   
+  ```gradlew clean test```  
+    **PostgreSQL**:
   - Для запуска SUT с базой данных PostgreSQL в терминале IntelliJ IDEA выполнить команду:   
   ```java "-Dspring.datasource.url=jdbc:postgresql://localhost:5432/app" -jar artifacts/aqa-shop.jar```
-  - Для запуска тестов по ранее написанному сценарию **TestCase.md** в новой вкладке терминала IntelliJ IDEA выполнить команду:  
-  ```gradlew clean test "-Ddb.url=jdbc:postgresql://localhost:5432/app"```
+  - Для запуска тестов по ранее написанному сценарию [**TestCase.md**](https://github.com/IliaMaksimenko/GraduateWork/blob/master/documentations/TestCase.md) в новой вкладке терминала IntelliJ IDEA выполнить команду:  
+  ```gradlew clean test "-Ddb.url=jdbc:postgresql://localhost:5432/app"```  
+  
+## Лицензия
+  - свободная
