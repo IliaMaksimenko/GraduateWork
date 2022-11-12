@@ -13,36 +13,39 @@ public class SQLHelper {
     private static final String user = "app";
     private static final String password = "pass";
 
-    public static String getScalarFromTable(String column, String tableName) throws SQLException {
+    public static String getScalarFromTable(String column, String tableName) {
         QueryRunner runner = new QueryRunner();
         try (val conn = DriverManager.getConnection(url, user, password)
         ) {
             val info = "SELECT " + column + " FROM " + tableName + " ORDER BY created DESC LIMIT 1;";
             return runner.query(conn, info, new ScalarHandler<String>());
+        } catch (SQLException exception) {
+            exception.printStackTrace();
         }
+        return null;
     }
 
-    public static String getStatusFromPaymentEntity() throws SQLException {
+    public static String getStatusFromPaymentEntity() {
         return getScalarFromTable("status", "payment_entity");
     }
 
-    public static String getTransactionIdFromPaymentEntity() throws SQLException {
+    public static String getTransactionIdFromPaymentEntity() {
         return getScalarFromTable("transaction_id", "payment_entity");
     }
 
-    public static String getPaymentIdFromOrderEntity() throws SQLException {
+    public static String getPaymentIdFromOrderEntity() {
         return getScalarFromTable("payment_id", "order_entity");
     }
 
-    public static String getCreditIdFromOrderEntity() throws SQLException {
+    public static String getCreditIdFromOrderEntity() {
         return getScalarFromTable("credit_id", "order_entity");
     }
 
-    public static String getStatusFromCreditRequestEntity() throws SQLException {
+    public static String getStatusFromCreditRequestEntity() {
         return getScalarFromTable("status", "credit_request_entity");
     }
 
-    public static String getBankIdFromCreditEntity() throws SQLException {
+    public static String getBankIdFromCreditEntity() {
         return getScalarFromTable("bank_id", "credit_request_entity");
     }
 

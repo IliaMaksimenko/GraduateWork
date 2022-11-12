@@ -5,15 +5,15 @@ import data.DataHelper;
 import data.SQLHelper;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.*;
-import page.DayTrip;
-
-import java.sql.SQLException;
+import page.CreditPage;
+import page.MainPage;
 
 import static com.codeborne.selenide.Selenide.open;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class BuyInCreditTest {
-    private final DayTrip cardPayment = new DayTrip();
+
+    MainPage mainPage = open("http://localhost:8080", MainPage.class);
 
     @BeforeAll
     static void setUpAll() {
@@ -27,8 +27,7 @@ public class BuyInCreditTest {
 
     @BeforeEach
     void shouldOpen() {
-        open("http://localhost:8080");
-        cardPayment.creditPurchase();
+        mainPage.creditPurchase();
     }
 
     @AfterEach
@@ -38,11 +37,12 @@ public class BuyInCreditTest {
 
 
     @Test
-    void positiveScriptBankApprovalTheRequest() throws SQLException {
-        cardPayment.inputData(DataHelper.getApproveCardNumber(), DataHelper.getMonth(),
+    void positiveScriptBankApprovalTheRequest() {
+        CreditPage creditPage = new CreditPage();
+        creditPage.inputData(DataHelper.getApproveCardNumber(), DataHelper.getMonth(),
                 DataHelper.getYear(1), DataHelper.getOwnerEng(), DataHelper.getCvc());
-        cardPayment.send();
-        cardPayment.alertMassageApprove();
+        creditPage.send();
+        creditPage.alertMassageApprove();
 
         String expectedStatus = "APPROVED";
 
@@ -53,23 +53,25 @@ public class BuyInCreditTest {
     }
 
     @Test
-    void negativeScriptSendEmptyForm() throws SQLException {
-        cardPayment.send();
-        cardPayment.validationCardNumber("Неверный формат");
-        cardPayment.validationMonth("Неверный формат");
-        cardPayment.validationYear("Неверный формат");
-        cardPayment.validationOwner("Поле обязательно для заполнения");
-        cardPayment.validationCvc("Неверный формат");
+    void negativeScriptSendEmptyForm() {
+        CreditPage creditPage = new CreditPage();
+        creditPage.send();
+        creditPage.validationCardNumber("Неверный формат");
+        creditPage.validationMonth("Неверный формат");
+        creditPage.validationYear("Неверный формат");
+        creditPage.validationOwner("Поле обязательно для заполнения");
+        creditPage.validationCvc("Неверный формат");
 
         assertNull(SQLHelper.getStatusFromCreditRequestEntity());
     }
 
     @Test
-    void negativeScriptBankDeniedTheRequest() throws SQLException {
-        cardPayment.inputData(DataHelper.getDeclinedCardNumber(), DataHelper.getMonth(),
+    void negativeScriptBankDeniedTheRequest() {
+        CreditPage creditPage = new CreditPage();
+        creditPage.inputData(DataHelper.getDeclinedCardNumber(), DataHelper.getMonth(),
                 DataHelper.getYear(1), DataHelper.getOwnerEng(), DataHelper.getCvc());
-        cardPayment.send();
-        cardPayment.alertMessageDeclined();
+        creditPage.send();
+        creditPage.alertMessageDeclined();
 
         String expectedStatus = "DECLINED";
 
@@ -78,11 +80,12 @@ public class BuyInCreditTest {
     }
 
     @Test
-    void negativeScriptSendUnregisteredCard() throws SQLException {
-        cardPayment.inputData(DataHelper.getUnregisteredCardNumber(), DataHelper.getMonth(),
+    void negativeScriptSendUnregisteredCard() {
+        CreditPage creditPage = new CreditPage();
+        creditPage.inputData(DataHelper.getUnregisteredCardNumber(), DataHelper.getMonth(),
                 DataHelper.getYear(1), DataHelper.getOwnerEng(), DataHelper.getCvc());
-        cardPayment.send();
-        cardPayment.alertMessageDeclined();
+        creditPage.send();
+        creditPage.alertMessageDeclined();
 
         String expectedStatus = "DECLINED";
 
@@ -91,162 +94,178 @@ public class BuyInCreditTest {
     }
 
     @Test
-    void negativeScriptEmptyFieldMonth() throws SQLException {
-        cardPayment.inputData(DataHelper.getApproveCardNumber(), "",
+    void negativeScriptEmptyFieldMonth() {
+        CreditPage creditPage = new CreditPage();
+        creditPage.inputData(DataHelper.getApproveCardNumber(), DataHelper.emptyField(),
                 DataHelper.getYear(1), DataHelper.getOwnerEng(), DataHelper.getCvc());
-        cardPayment.send();
-        cardPayment.validationMonth("Неверный формат");
+        creditPage.send();
+        creditPage.validationMonth("Неверный формат");
 
         assertNull(SQLHelper.getStatusFromCreditRequestEntity());
     }
 
 
     @Test
-    void negativeScriptInvalidValueMonth() throws SQLException {
-        cardPayment.inputData(DataHelper.getApproveCardNumber(), "13",
+    void negativeScriptInvalidValueMonth() {
+        CreditPage creditPage = new CreditPage();
+        creditPage.inputData(DataHelper.getApproveCardNumber(), DataHelper.thirteenthMonth(),
                 DataHelper.getYear(1), DataHelper.getOwnerEng(), DataHelper.getCvc());
-        cardPayment.send();
-        cardPayment.validationMonth("Неверно указан срок действия карты");
+        creditPage.send();
+        creditPage.validationMonth("Неверно указан срок действия карты");
 
         assertNull(SQLHelper.getStatusFromCreditRequestEntity());
     }
 
     @Test
-    void negativeScriptPastMonth() throws SQLException {
-        cardPayment.inputData(DataHelper.getApproveCardNumber(), "09",
+    void negativeScriptPastMonth() {
+        CreditPage creditPage = new CreditPage();
+        creditPage.inputData(DataHelper.getApproveCardNumber(), DataHelper.pastMonth(),
                 DataHelper.getYear(0), DataHelper.getOwnerEng(), DataHelper.getCvc());
-        cardPayment.send();
-        cardPayment.validationMonth("Неверно указан срок действия карты");
+        creditPage.send();
+        creditPage.validationMonth("Неверно указан срок действия карты");
 
         assertNull(SQLHelper.getStatusFromCreditRequestEntity());
     }
 
     @Test
-    void negativeScriptIncompleteValueMonth() throws SQLException {
-        cardPayment.inputData(DataHelper.getApproveCardNumber(), "1",
+    void negativeScriptIncompleteValueMonth() {
+        CreditPage creditPage = new CreditPage();
+        creditPage.inputData(DataHelper.getApproveCardNumber(), DataHelper.missingNumber(),
                 DataHelper.getYear(1), DataHelper.getOwnerEng(), DataHelper.getCvc());
-        cardPayment.send();
-        cardPayment.validationMonth("Неверный формат");
+        creditPage.send();
+        creditPage.validationMonth("Неверный формат");
 
         assertNull(SQLHelper.getStatusFromCreditRequestEntity());
     }
 
     @Test
-    void negativeScriptEmptyFieldYear() throws SQLException {
-        cardPayment.inputData(DataHelper.getApproveCardNumber(), DataHelper.getMonth(),
+    void negativeScriptEmptyFieldYear() {
+        CreditPage creditPage = new CreditPage();
+        creditPage.inputData(DataHelper.getApproveCardNumber(), DataHelper.getMonth(),
                 "", DataHelper.getOwnerEng(), DataHelper.getCvc());
-        cardPayment.send();
-        cardPayment.validationYear("Неверный формат");
+        creditPage.send();
+        creditPage.validationYear("Неверный формат");
 
         assertNull(SQLHelper.getStatusFromCreditRequestEntity());
     }
 
     @Test
-    void negativeScriptPastYear() throws SQLException {
-        cardPayment.inputData(DataHelper.getApproveCardNumber(), DataHelper.getMonth(),
+    void negativeScriptPastYear() {
+        CreditPage creditPage = new CreditPage();
+        creditPage.inputData(DataHelper.getApproveCardNumber(), DataHelper.getMonth(),
                 DataHelper.getYear(-1), DataHelper.getOwnerEng(), DataHelper.getCvc());
-        cardPayment.send();
-        cardPayment.validationYear("Истёк срок действия карты");
+        creditPage.send();
+        creditPage.validationYear("Истёк срок действия карты");
 
         assertNull(SQLHelper.getStatusFromCreditRequestEntity());
     }
 
     @Test
-    void negativeScriptInvalidValueYear() throws SQLException {
-        cardPayment.inputData(DataHelper.getApproveCardNumber(), DataHelper.getMonth(),
+    void negativeScriptInvalidValueYear() {
+        CreditPage creditPage = new CreditPage();
+        creditPage.inputData(DataHelper.getApproveCardNumber(), DataHelper.getMonth(),
                 DataHelper.getYear(6), DataHelper.getOwnerEng(), DataHelper.getCvc());
-        cardPayment.send();
-        cardPayment.validationYear("Неверно указан срок действия карты");
+        creditPage.send();
+        creditPage.validationYear("Неверно указан срок действия карты");
 
         assertNull(SQLHelper.getStatusFromCreditRequestEntity());
     }
 
     @Test
-    void negativeScriptIncompleteValueYear() throws SQLException {
-        cardPayment.inputData(DataHelper.getApproveCardNumber(), DataHelper.getMonth(),
-                "2", DataHelper.getOwnerEng(), DataHelper.getCvc());
-        cardPayment.send();
-        cardPayment.validationYear("Неверный формат");
+    void negativeScriptIncompleteValueYear() {
+        CreditPage creditPage = new CreditPage();
+        creditPage.inputData(DataHelper.getApproveCardNumber(), DataHelper.getMonth(),
+                DataHelper.missingNumber(), DataHelper.getOwnerEng(), DataHelper.getCvc());
+        creditPage.send();
+        creditPage.validationYear("Неверный формат");
 
         assertNull(SQLHelper.getStatusFromCreditRequestEntity());
     }
 
     @Test
-    void negativeScriptEmptyFieldOwner() throws SQLException {
-        cardPayment.inputData(DataHelper.getApproveCardNumber(), DataHelper.getMonth(),
-                DataHelper.getYear(1), "", DataHelper.getCvc());
-        cardPayment.send();
-        cardPayment.validationOwner("Поле обязательно для заполнения");
+    void negativeScriptEmptyFieldOwner() {
+        CreditPage creditPage = new CreditPage();
+        creditPage.inputData(DataHelper.getApproveCardNumber(), DataHelper.getMonth(),
+                DataHelper.getYear(1), DataHelper.emptyField(), DataHelper.getCvc());
+        creditPage.send();
+        creditPage.validationOwner("Поле обязательно для заполнения");
 
         assertNull(SQLHelper.getStatusFromCreditRequestEntity());
     }
 
     @Test
-    void negativeScriptInputNumberInFieldOwner() throws SQLException {
-        cardPayment.inputData(DataHelper.getApproveCardNumber(), DataHelper.getMonth(),
-                DataHelper.getYear(1), "4", DataHelper.getCvc());
-        cardPayment.send();
-        cardPayment.validationOwner("Неверный формат");
+    void negativeScriptInputNumberInFieldOwner() {
+        CreditPage creditPage = new CreditPage();
+        creditPage.inputData(DataHelper.getApproveCardNumber(), DataHelper.getMonth(),
+                DataHelper.getYear(1), DataHelper.ownerNameNumber(), DataHelper.getCvc());
+        creditPage.send();
+        creditPage.validationOwner("Неверный формат");
 
         assertNull(SQLHelper.getStatusFromCreditRequestEntity());
     }
 
     @Test
-    void negativeScriptInputSymbolInFieldOwner() throws SQLException {
-        cardPayment.inputData(DataHelper.getApproveCardNumber(), DataHelper.getMonth(),
-                DataHelper.getYear(1), "!№;%:?()/+-.,[]", DataHelper.getCvc());
-        cardPayment.send();
-        cardPayment.validationOwner("Неверный формат");
+    void negativeScriptInputSymbolInFieldOwner() {
+        CreditPage creditPage = new CreditPage();
+        creditPage.inputData(DataHelper.getApproveCardNumber(), DataHelper.getMonth(),
+                DataHelper.getYear(1), DataHelper.randomSymbol(), DataHelper.getCvc());
+        creditPage.send();
+        creditPage.validationOwner("Неверный формат");
 
         assertNull(SQLHelper.getStatusFromCreditRequestEntity());
     }
 
     @Test
-    void negativeScriptInputCyrillicLettersInFieldOwner() throws SQLException {
-        cardPayment.inputData(DataHelper.getApproveCardNumber(), DataHelper.getMonth(),
+    void negativeScriptInputCyrillicLettersInFieldOwner() {
+        CreditPage creditPage = new CreditPage();
+        creditPage.inputData(DataHelper.getApproveCardNumber(), DataHelper.getMonth(),
                 DataHelper.getYear(1), DataHelper.getOwnerRus(), DataHelper.getCvc());
-        cardPayment.send();
-        cardPayment.validationOwner("Неверный формат");
+        creditPage.send();
+        creditPage.validationOwner("Неверный формат");
 
         assertNull(SQLHelper.getStatusFromCreditRequestEntity());
     }
 
     @Test
-    void negativeScriptInput28SymbolInFieldOwner() throws SQLException {
-        cardPayment.inputData(DataHelper.getApproveCardNumber(), DataHelper.getMonth(),
+    void negativeScriptInput28SymbolInFieldOwner() {
+        CreditPage creditPage = new CreditPage();
+        creditPage.inputData(DataHelper.getApproveCardNumber(), DataHelper.getMonth(),
                 DataHelper.getYear(1), DataHelper.get28SymbolOwner(), DataHelper.getCvc());
-        cardPayment.send();
-        cardPayment.validationOwner("Неверный формат");
+        creditPage.send();
+        creditPage.validationOwner("Неверный формат");
 
         assertNull(SQLHelper.getStatusFromCreditRequestEntity());
     }
 
     @Test
-    void negativeScriptEmptyFieldCvc() throws SQLException {
-        cardPayment.inputData(DataHelper.getApproveCardNumber(), DataHelper.getMonth(),
-                DataHelper.getYear(1), DataHelper.getOwnerEng(), "");
-        cardPayment.send();
-        cardPayment.validationCvc("Неверный формат");
+    void negativeScriptEmptyFieldCvc() {
+        CreditPage creditPage = new CreditPage();
+        creditPage.inputData(DataHelper.getApproveCardNumber(), DataHelper.getMonth(),
+                DataHelper.getYear(1), DataHelper.getOwnerEng(), DataHelper.emptyField());
+        creditPage.send();
+        creditPage.validationCvc("Неверный формат");
 
         assertNull(SQLHelper.getStatusFromCreditRequestEntity());
     }
 
     @Test
-    void negativeScriptIncompleteValueCvc() throws SQLException {
-        cardPayment.inputData(DataHelper.getApproveCardNumber(), DataHelper.getMonth(),
-                DataHelper.getYear(1), DataHelper.getOwnerEng(), "22");
-        cardPayment.send();
-        cardPayment.validationCvc("Неверный формат");
+    void negativeScriptIncompleteValueCvc() {
+        CreditPage creditPage = new CreditPage();
+        creditPage.inputData(DataHelper.getApproveCardNumber(), DataHelper.getMonth(),
+                DataHelper.getYear(1), DataHelper.getOwnerEng(), DataHelper.missingNumberCVC());
+        creditPage.send();
+        creditPage.validationCvc("Неверный формат");
 
         assertNull(SQLHelper.getStatusFromCreditRequestEntity());
     }
 
     @Test
-    void negativeScriptIncompleteValueCardNumber() throws SQLException {
-        cardPayment.inputData("4444 4444 4444 444", DataHelper.getMonth(),
+    void negativeScriptIncompleteValueCardNumber() {
+        CreditPage creditPage = new CreditPage();
+        creditPage.inputData(DataHelper.missingNumberCard(), DataHelper.getMonth(),
                 DataHelper.getYear(1), DataHelper.getOwnerEng(), DataHelper.getCvc());
-        cardPayment.send();
-        cardPayment.validationCardNumber("Неверный формат");
+        creditPage.send();
+        creditPage.validationCardNumber("Неверный формат");
 
         assertNull(SQLHelper.getStatusFromCreditRequestEntity());
     }

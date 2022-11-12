@@ -1,11 +1,9 @@
 package data;
 
 import com.github.javafaker.Faker;
-import lombok.Value;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
 import java.util.Locale;
 import java.util.*;
 
@@ -15,6 +13,38 @@ public class DataHelper {
     static Faker fakerEng = new Faker(new Locale("en"));
 
     private DataHelper() {
+    }
+
+    public static String emptyField() {
+        return "";
+    }
+
+    public static String thirteenthMonth() {
+        return String.valueOf(fakerRus.number().numberBetween(13, 99));
+    }
+
+    public static String pastMonth() {
+        return "09";
+    }
+
+    public static String missingNumber() {
+        return String.valueOf(fakerRus.number().numberBetween(1, 9));
+    }
+
+    public static String ownerNameNumber() {
+        return String.valueOf(fakerRus.number().randomDigit());
+    }
+
+    public static String randomSymbol() {
+        return "!№;%:?()/+-.,[]";
+    }
+
+    public static String missingNumberCVC() {
+        return fakerRus.number().digits(2);
+    }
+
+    public static String missingNumberCard() {
+        return "4444 4444 4444 444";
     }
 
     public static String getApproveCardNumber() {
