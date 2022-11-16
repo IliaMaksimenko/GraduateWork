@@ -26,21 +26,22 @@
 - 13 не успешных
 
 #### Отчет по резултатам тестирования Gradle  
-![photo_5447317003477043306_m](https://user-images.githubusercontent.com/104021697/202121881-e17b4170-03e8-4429-808e-2d93b3e5e09d.jpg)
+
+![GradleReport](https://user-images.githubusercontent.com/104021697/202230248-a5708369-dbc7-4280-bc40-5a2aacbb3388.png)
 
 #### Отчет по резултатам тестирования Allure
 
-![photo_5447317003477043305_x](https://user-images.githubusercontent.com/104021697/202122648-99f85d66-d0b7-4d48-ad59-1c7b04bf30ad.jpg)
+![AllureReportMain](https://user-images.githubusercontent.com/104021697/202231226-4d8a83a4-ff36-4811-a7fa-d7928c68fd3d.png)
 
 Таким образом процент успешных тестов автоматизированных тестов сотсавляет **67,5%**
 
 #### Список тестов при Оплате картой
 
-![photo_5447317003477043307_x](https://user-images.githubusercontent.com/104021697/202125807-0d06afc3-9233-4798-90d9-7e728c0a80e7.jpg)
+![AllureCardPaymentList](https://user-images.githubusercontent.com/104021697/202231310-e0646c26-30a3-47fa-bac6-a68b4b4d52ca.png)
 
 #### Список тестов при Оформлении кредита
 
-![photo_5447317003477043308_x](https://user-images.githubusercontent.com/104021697/202125895-cebeca50-9394-4775-9679-34975a4d1463.jpg)
+![AllureBuyInCreditList](https://user-images.githubusercontent.com/104021697/202231346-39d24799-55bb-4957-bc37-3ef42ad584e6.png)
 
 По результату автоматизированных тестов заведено [18 issue](https://github.com/IliaMaksimenko/GraduateWork/issues) с подробным описанием ошибок.
 
